@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>Vernon — AI Engineer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0a0f',
+            surface: '#111118',
+            card: '#16161f',
+            border: '#2a2a3a',
+            accent: '#3b82f6',
+            purple: '#8b5cf6',
+            green: '#10b981',
+            txt: '#f1f5f9',
+            muted: '#94a3b8',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+          },
+          borderRadius: {
+            card: '12px',
+            btn: '8px',
+          },
+        },
+      },
+    };
+    </script>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #0a0a0f;
+        --surface: #111118;
+        --card: #16161f;
+        --border: #2a2a3a;
+        --accent: #3b82f6;
+        --purple: #8b5cf6;
+        --green: #10b981;
+        --txt: #f1f5f9;
+        --muted: #94a3b8;
+        --gradient: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background-color: var(--bg);
+        color: var(--txt);
+        line-height: 1.6;
+        overflow-x: hidden;
+        background-image:
+          linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+      }
+
+      ::selection {
+        background: rgba(59,130,246,0.3);
+        color: #fff;
+      }
+
+      .gradient-text {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .gradient-border {
+        position: relative;
+        background: var(--card);
+        border-radius: 12px;
+      }
+      .gradient-border::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 12px;
+        padding: 1px;
+        background: var(--gradient);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      .gradient-btn {
+        background: var(--gradient);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 14px 28px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .gradient-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(59,130,246,0.3);
+      }
+
+      .outline-btn {
+        background: transparent;
+        color: var(--txt);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 28px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .outline-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      .nav-link {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: color 0.3s;
+        position: relative;
+        padding: 4px 0;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--gradient);
+        border-radius: 1px;
+        transition: width 0.3s;
+      }
+      .nav-link:hover, .nav-link.active {
+        color: var(--txt);
+      }
+      .nav-link.active::after, .nav-link:hover::after {
+        width: 100%;
+      }
+
+      .section-title {
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: var(--accent);
+        margin-bottom: 12px;
+      }
+
+      .card-hover {
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(59,130,246,0.1);
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 14px;
+        border-radius: 100px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--muted);
+        transition: all 0.3s;
+      }
+      .pill:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        box-shadow: 0 0 15px rgba(59,130,246,0.1);
+      }
+      .pill.star {
+        border-color: rgba(59,130,246,0.3);
+        color: var(--accent);
+      }
+      .pill.diamond {
+        border-color: rgba(139,92,246,0.25);
+        color: var(--purple);
+      }
+
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .animate-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 8px rgba(16,185,129,0.4); }
+        50% { box-shadow: 0 0 20px rgba(16,185,129,0.7); }
+      }
+      .pulse-badge {
+        animation: pulse-glow 2.5s ease-in-out infinite;
+      }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+      .typewriter-cursor {
+        display: inline-block;
+        width: 3px;
+        height: 1em;
+        background: var(--accent);
+        margin-left: 4px;
+        animation: blink 0.8s step-end infinite;
+        vertical-align: text-bottom;
+      }
+
+      .project-card { cursor: pointer; }
+      .project-details {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+        opacity: 0;
+      }
+      .project-card.expanded .project-details {
+        max-height: 1200px;
+        opacity: 1;
+      }
+      .project-card .expand-icon {
+        transition: transform 0.3s ease;
+      }
+      .project-card.expanded .expand-icon {
+        transform: rotate(180deg);
+      }
+
+      .pricing-card {
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .pricing-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+      }
+
+      .stat-num { font-variant-numeric: tabular-nums; }
+
+      .arch-block {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px 20px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.82rem;
+        color: var(--green);
+        overflow-x: auto;
+        white-space: pre;
+        line-height: 1.8;
+      }
+
+      .metric-chip {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 16px;
+        text-align: center;
+      }
+      .metric-chip .val {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--accent);
+      }
+      .metric-chip .lbl {
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+    </style>
+</head>
+<body data-id="0" class="bg-bg text-txt font-sans">
+    <app-icon data-id="1" hidden data-icon="brain-circuit" data-palette="Dark"></app-icon>
+
+    <!-- NAVIGATION -->
+    <nav data-id="2" id="navbar-a1b2" class="fixed top-0 left-0 right-0 z-50 border-b border-border" style="background: rgba(10,10,15,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
+        <div data-id="3" class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+            <a data-id="4" href="#" class="text-xl font-bold tracking-tight text-txt flex items-center gap-1" style="text-decoration:none;">
+                Vernon<span data-id="5" class="text-accent text-2xl leading-none ml-0.5">●</span>
+            </a>
+            <div data-id="6" class="hidden md:flex items-center gap-8">
+                <a data-id="7" href="#about" class="nav-link" data-nav="about">About</a>
+                <a data-id="8" href="#work" class="nav-link" data-nav="work">Work</a>
+                <a data-id="9" href="#stack" class="nav-link" data-nav="stack">Stack</a>
+                <a data-id="10" href="#pricing" class="nav-link" data-nav="pricing">Pricing</a>
+                <a data-id="11" href="#contact" class="nav-link" data-nav="contact">Contact</a>
+            </div>
+            <button data-id="12" id="mobile-menu-btn-c3d4" class="md:hidden p-2 text-muted hover:text-txt transition-colors" aria-label="Open menu">
+                <i data-id="13" data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div data-id="14" id="mobile-menu-e5f6" class="hidden fixed inset-0 z-[60] flex flex-col" style="background: rgba(10,10,15,0.97); backdrop-filter: blur(20px);">
+        <div data-id="15" class="flex items-center justify-between px-5 h-16">
+            <span data-id="16" class="text-xl font-bold text-txt">Vernon<span data-id="17" class="text-accent text-2xl ml-0.5">●</span></span>
+            <button data-id="18" id="mobile-menu-close-g7h8" class="p-2 text-muted hover:text-txt" aria-label="Close menu">
+                <i data-id="19" data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div data-id="20" class="flex flex-col items-center justify-center flex-1 gap-8">
+            <a data-id="21" href="#about" class="text-2xl font-semibold text-muted hover:text-txt transition-colors mobile-nav-link" style="text-decoration:none;">About</a>
+            <a data-id="22" href="#work" class="text-2xl font-semibold text-muted hover:text-txt transition-colors mobile-nav-link" style="text-decoration:none;">Work</a>
+            <a data-id="23" href="#stack" class="text-2xl font-semibold text-muted hover:text-txt transition-colors mobile-nav-link" style="text-decoration:none;">Stack</a>
+            <a data-id="24" href="#pricing" class="text-2xl font-semibold text-muted hover:text-txt transition-colors mobile-nav-link" style="text-decoration:none;">Pricing</a>
+            <a data-id="25" href="#contact" class="text-2xl font-semibold text-muted hover:text-txt transition-colors mobile-nav-link" style="text-decoration:none;">Contact</a>
+        </div>
+    </div>
+
+    <main data-id="26">
+        <!-- HERO -->
+        <section data-id="27" id="hero-i9j0" class="min-h-screen flex flex-col items-center justify-center text-center px-5 relative">
+            <div data-id="28" class="max-w-3xl mx-auto">
+                <h1 data-id="29" id="hero-headline-k1l2" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.08] tracking-tight mb-6">
+                    <span data-id="30" id="typewriter-target-m3n4" class="gradient-text"></span><span data-id="31" class="typewriter-cursor"></span>
+                </h1>
+                <p data-id="32" id="hero-sub-o5p6" class="text-muted text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed animate-in">
+                    I build conversational agents, document pipelines, and recommendation engines — shipped in weeks, not quarters.
+                </p>
+                <div data-id="33" id="hero-ctas-q7r8" class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14 animate-in">
+                    <a data-id="34" href="#work" class="gradient-btn">
+                        <i data-id="35" data-lucide="briefcase" class="w-5 h-5"></i> View My Work
+                    </a>
+                    <a data-id="36" href="#contact" class="outline-btn">
+                        <i data-id="37" data-lucide="phone" class="w-5 h-5"></i> Get a Free Scoping Call
+                    </a>
+                </div>
+                <div data-id="38" id="hero-stats-s9t0" class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-xl mx-auto animate-in">
+                    <div data-id="39" class="bg-card border border-border rounded-card p-5 text-center">
+                        <div data-id="40" class="text-3xl md:text-4xl font-black text-accent stat-num" data-target="42" data-suffix="%">0%</div>
+                        <div data-id="41" class="text-xs text-muted mt-1 uppercase tracking-wider font-medium">Ticket Reduction</div>
+                    </div>
+                    <div data-id="42" class="bg-card border border-border rounded-card p-5 text-center">
+                        <div data-id="43" class="text-3xl md:text-4xl font-black text-accent stat-num" data-target="180" data-prefix="$" data-suffix="K">$0K</div>
+                        <div data-id="44" class="text-xs text-muted mt-1 uppercase tracking-wider font-medium">Annual Savings</div>
+                    </div>
+                    <div data-id="45" class="bg-card border border-border rounded-card p-5 text-center">
+                        <div data-id="46" class="text-3xl md:text-4xl font-black text-accent stat-num" data-target="23" data-suffix="%">0%</div>
+                        <div data-id="47" class="text-xs text-muted mt-1 uppercase tracking-wider font-medium">Revenue Lift</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Floating badge -->
+            <div data-id="48" id="avail-badge-u1v2" class="hidden sm:flex absolute bottom-10 right-6 md:right-12 items-center gap-2 bg-card border border-green/30 rounded-full px-5 py-3 text-sm font-medium text-green pulse-badge">
+                <span data-id="49">⚡</span> Available to start in 2 weeks
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section data-id="50" id="about" class="py-20 md:py-28 px-5">
+            <div data-id="51" class="max-w-6xl mx-auto">
+                <div data-id="52" class="section-title animate-in">About</div>
+                <div data-id="53" class="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 mt-6">
+                    <div data-id="54" class="lg:col-span-3 animate-in">
+                        <h2 data-id="55" id="about-head-w3x4" class="text-3xl md:text-4xl font-bold mb-6 leading-tight">No degree. Just shipped products.</h2>
+                        <div data-id="56" class="space-y-4 text-muted text-base leading-relaxed">
+                            <p data-id="57">I'm a self-taught AI engineer from Boise, ID who builds production-grade AI systems for startups and SMBs. My niche: customer-facing automation that actually works.</p>
+                            <p data-id="58">I got into AI engineering the same way I get into everything — by building things I needed. When I couldn't find learning tools that worked for how I think, I built one. That project became <span data-id="59" class="text-txt font-semibold">Atlas Learning System</span>, my flagship AI-powered adaptive learning platform.</p>
+                            <p data-id="60">Every skill I have came from solving a real problem. That's not a gap — it's the feature.</p>
+                        </div>
+                        <div data-id="61" class="mt-8 gradient-border p-[1px]">
+                            <div data-id="62" class="bg-card rounded-card px-5 py-4 flex flex-wrap items-center gap-3 text-sm">
+                                <span data-id="63" class="text-muted font-semibold uppercase text-xs tracking-wider">Niche:</span>
+                                <span data-id="64" class="text-txt font-medium">Production-First AI</span>
+                                <span data-id="65" class="text-border">|</span>
+                                <span data-id="66" class="text-txt font-medium">Startups & SMBs</span>
+                                <span data-id="67" class="text-border">|</span>
+                                <span data-id="68" class="text-txt font-medium">Customer-Facing Automation</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-id="69" class="lg:col-span-2 flex flex-col gap-4 animate-in">
+                        <div data-id="70" class="bg-card border border-border rounded-card p-5 flex items-start gap-4 card-hover">
+                            <span data-id="71" class="text-2xl">📍</span>
+                            <div data-id="72"><div data-id="73" class="font-semibold text-txt">Boise, ID</div><div data-id="74" class="text-muted text-sm">Remote Friendly</div></div>
+                        </div>
+                        <div data-id="75" class="bg-card border border-border rounded-card p-5 flex items-start gap-4 card-hover">
+                            <span data-id="76" class="text-2xl">⚡</span>
+                            <div data-id="77"><div data-id="78" class="font-semibold text-txt">48–72 hr prototype</div><div data-id="79" class="text-muted text-sm">→ 2–6 wk MVP</div></div>
+                        </div>
+                        <div data-id="80" class="bg-card border border-border rounded-card p-5 flex items-start gap-4 card-hover">
+                            <span data-id="81" class="text-2xl">🔨</span>
+                            <div data-id="82"><div data-id="83" class="font-semibold text-txt">Flagship Build</div><div data-id="84" class="text-muted text-sm">Atlas Learning System</div></div>
+                        </div>
+                        <div data-id="85" class="bg-card border border-border rounded-card p-5 flex items-start gap-4 card-hover">
+                            <span data-id="86" class="text-2xl">🎓</span>
+                            <div data-id="87"><div data-id="88" class="font-semibold text-txt">Self-Taught</div><div data-id="89" class="text-muted text-sm">10+ Years Building</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WORK -->
+        <section data-id="90" id="work" class="py-20 md:py-28 px-5 bg-surface">
+            <div data-id="91" class="max-w-6xl mx-auto">
+                <div data-id="92" class="text-center mb-12 animate-in">
+                    <div data-id="93" class="section-title">Selected Work</div>
+                    <h2 data-id="94" class="text-3xl md:text-4xl font-bold mt-2">Case Studies</h2>
+                    <p data-id="95" class="text-muted mt-3 text-base">Real projects. Real metrics. Anonymized where required.</p>
+                </div>
+
+                <div data-id="96" class="space-y-6">
+                    <!-- Project 1 -->
+                    <div data-id="97" class="project-card bg-card border border-border rounded-card overflow-hidden animate-in" data-project="1">
+                        <div data-id="98" class="p-6 md:p-8">
+                            <div data-id="99" class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                                <div data-id="100" class="flex items-center gap-3 flex-wrap">
+                                    <h3 data-id="101" class="text-xl md:text-2xl font-bold text-txt">Conversational Support Agent</h3>
+                                    <span data-id="102" class="text-xs font-semibold px-3 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">B2B SaaS</span>
+                                </div>
+                                <div data-id="103" class="flex items-center gap-2 text-muted text-sm">
+                                    <span data-id="104">Click to expand</span>
+                                    <i data-id="105" data-lucide="chevron-down" class="w-5 h-5 expand-icon"></i>
+                                </div>
+                            </div>
+                            <div data-id="106" class="flex flex-wrap gap-2 mb-4">
+                                <span data-id="107" class="pill star text-xs">42% fewer tickets</span>
+                                <span data-id="108" class="pill star text-xs">18s avg response</span>
+                                <span data-id="109" class="pill star text-xs">$95K/yr savings</span>
+                            </div>
+                            <div data-id="110" class="flex flex-wrap gap-2">
+                                <span data-id="111" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Python</span>
+                                <span data-id="112" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">LangChain</span>
+                                <span data-id="113" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">GPT-4</span>
+                                <span data-id="114" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Hugging Face</span>
+                                <span data-id="115" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">FastAPI</span>
+                                <span data-id="116" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">PostgreSQL</span>
+                                <span data-id="117" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Docker</span>
+                                <span data-id="118" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">AWS Lambda</span>
+                            </div>
+                        </div>
+                        <div data-id="119" class="project-details">
+                            <div data-id="120" class="px-6 md:px-8 pb-8 border-t border-border pt-6 space-y-6">
+                                <div data-id="121">
+                                    <h4 data-id="122" class="text-sm font-semibold uppercase tracking-wider text-accent mb-2">Problem</h4>
+                                    <p data-id="123" class="text-muted text-sm leading-relaxed">Support team handling 600+ tickets/week manually. 4.2 hour average response time. Rising headcount costs with declining CSAT.</p>
+                                </div>
+                                <div data-id="124">
+                                    <h4 data-id="125" class="text-sm font-semibold uppercase tracking-wider text-accent mb-2">Solution</h4>
+                                    <p data-id="126" class="text-muted text-sm leading-relaxed">Multi-turn LangChain agent with RAG over company knowledge base (Hugging Face embeddings + PostgreSQL vector store). Deployed via FastAPI on AWS Lambda with auto-scaling.</p>
+                                </div>
+                                <div data-id="127">
+                                    <h4 data-id="128" class="text-sm font-semibold uppercase tracking-wider text-accent mb-2">Architecture</h4>
+                                    <div data-id="129" class="arch-block">User → FastAPI Gateway → LangChain Agent → GPT-4
+RAG: Hugging Face Embeddings + PostgreSQL Vector Store</div>
+                                </div>
+                                <div data-id="130">
+                                    <h4 data-id="131" class="text-sm font-semibold uppercase tracking-wider text-accent mb-3">Results</h4>
+                                    <div data-id="132" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                                        <div data-id="133" class="metric-chip"><div data-id="134" class="val">42%</div><div data-id="135" class="lbl">Fewer Tickets</div></div>
+                                        <div data-id="136" class="metric-chip"><div data-id="137" class="val">18s</div><div data-id="138" class="lbl">Avg Response</div></div>
+                                        <div data-id="139" class="metric-chip"><div data-id="140" class="val">500</div><div data-id="141" class="lbl">Concurrent Users</div></div>
+                                        <div data-id="142" class="metric-chip"><div data-id="143" class="val">4.6</div><div data-id="144" class="lbl">CSAT (was 3.4)</div></div>
+                                        <div data-id="145" class="metric-chip"><div data-id="146" class="val">$95K</div><div data-id="147" class="lbl">Savings/yr</div></div>
+                                    </div>
+                                </div>
+                                <div data-id="148" class="flex items-center gap-2 text-sm">
+                                    <span data-id="149" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green/10 text-green rounded-full border border-green/20 font-medium text-xs">
+                                        <i data-id="150" data-lucide="clock" class="w-3.5 h-3.5"></i> 72hr prototype → 3wk MVP
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div data-id="151" class="project-card bg-card border border-border rounded-card overflow-hidden animate-in" data-project="2">
+                        <div data-id="152" class="p-6 md:p-8">
+                            <div data-id="153" class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                                <div data-id="154" class="flex items-center gap-3 flex-wrap">
+                                    <h3 data-id="155" class="text-xl md:text-2xl font-bold text-txt">Document Intelligence Pipeline</h3>
+                                    <span data-id="156" class="text-xs font-semibold px-3 py-1 rounded-full bg-purple/10 text-purple border border-purple/20">Legal Tech SMB</span>
+                                </div>
+                                <div data-id="157" class="flex items-center gap-2 text-muted text-sm">
+                                    <span data-id="158">Click to expand</span>
+                                    <i data-id="159" data-lucide="chevron-down" class="w-5 h-5 expand-icon"></i>
+                                </div>
+                            </div>
+                            <div data-id="160" class="flex flex-wrap gap-2 mb-4">
+                                <span data-id="161" class="pill star text-xs">10K+ docs/day</span>
+                                <span data-id="162" class="pill star text-xs">94.7% accuracy</span>
+                                <span data-id="163" class="pill star text-xs">$180K/yr savings</span>
+                            </div>
+                            <div data-id="164" class="flex flex-wrap gap-2">
+                                <span data-id="165" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Python</span>
+                                <span data-id="166" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Hugging Face BERT</span>
+                                <span data-id="167" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">AWS Textract</span>
+                                <span data-id="168" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">FastAPI</span>
+                                <span data-id="169" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">MLflow</span>
+                                <span data-id="170" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Docker</span>
+                                <span data-id="171" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Kubernetes</span>
+                                <span data-id="172" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">PostgreSQL</span>
+                            </div>
+                        </div>
+                        <div data-id="173" class="project-details">
+                            <div data-id="174" class="px-6 md:px-8 pb-8 border-t border-border pt-6 space-y-6">
+                                <div data-id="175">
+                                    <h4 data-id="176" class="text-sm font-semibold uppercase tracking-wider text-accent mb-2">Problem</h4>
+                                    <p data-id="177" class="text-muted text-sm leading-relaxed">500+ contracts/week reviewed manually. Junior staff spending 70% of time on extraction tasks. High error rates on entity recognition.</p>
+                                </div>
+                                <div data-id="178">
+                                    <h4 data-id="179" class="text-sm font-semibold uppercase tracking-wider text-accent mb-2">Solution</h4>
+                                    <p data-id="180" class="text-muted text-sm leading-relaxed">PDF ingestion → AWS Textract OCR → fine-tuned BERT for entity extraction → FastAPI interface → PostgreSQL + client dashboard. MLflow for model versioning and experiment tracking.</p>
+                                </div>
+                                <div data-id="181">
+                                    <h4 data-id="182" class="text-sm font-semibold uppercase tracking-wider text-accent mb-2">Architecture</h4>
+                                    <div data-id="183" class="arch-block">Document Upload → OCR (Textract) → Fine-tuned BERT → Structured JSON
+FastAPI → Client Dashboard → PostgreSQL</div>
+                                </div>
+                                <div data-id="184">
+                                    <h4 data-id="185" class="text-sm font-semibold uppercase tracking-wider text-accent mb-3">Results</h4>
+                                    <div data-id="186" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                                        <div data-id="187" class="metric-chip"><div data-id="188" class="val">10K+</div><div data-id="189" class="lbl">Docs/Day</div></div>
+                                        <div data-id="190" class="metric-chip"><div data-id="191" class="val">94.7%</div><div data-id="192" class="lbl">Accuracy</div></div>
+                                        <div data-id="193" class="metric-chip"><div data-id="194" class="val">68%</div><div data-id="195" class="lbl">Less Review Time</div></div>
+                                        <div data-id="196" class="metric-chip"><div data-id="197" class="val">$180K</div><div data-id="198" class="lbl">Savings/yr</div></div>
+                                        <div data-id="199" class="metric-chip"><div data-id="200" class="val">99.94%</div><div data-id="201" class="lbl">Uptime</div></div>
+                                    </div>
+                                </div>
+                                <div data-id="202" class="flex items-center gap-2 text-sm">
+                                    <span data-id="203" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green/10 text-green rounded-full border border-green/20 font-medium text-xs">
+                                        <i data-id="204" data-lucide="clock" class="w-3.5 h-3.5"></i> 48hr prototype → 4wk MVP
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div data-id="205" class="project-card bg-card border border-border rounded-card overflow-hidden animate-in" data-project="3">
+                        <div data-id="206" class="p-6 md:p-8">
+                            <div data-id="207" class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                                <div data-id="208" class="flex items-center gap-3 flex-wrap">
+                                    <h3 data-id="209" class="text-xl md:text-2xl font-bold text-txt">Recommendation Engine</h3>
+                                    <span data-id="210" class="text-xs font-semibold px-3 py-1 rounded-full bg-green/10 text-green border border-green/20">E-commerce SMB</span>
+                                </div>
+                                <div data-id="211" class="flex items-center gap-2 text-muted text-sm">
+                                    <span data-id="212">Click to expand</span>
+                                    <i data-id="213" data-lucide="chevron-down" class="w-5 h-5 expand-icon"></i>
+                                </div>
+                            </div>
+                            <div data-id="214" class="flex flex-wrap gap-2 mb-4">
+                                <span data-id="215" class="pill star text-xs">23% higher AOV</span>
+                                <span data-id="216" class="pill star text-xs">31% better CTR</span>
+                                <span data-id="217" class="pill star text-xs">&lt;50ms P99 latency</span>
+                            </div>
+                            <div data-id="218" class="flex flex-wrap gap-2">
+                                <span data-id="219" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Python</span>
+                                <span data-id="220" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">PyTorch</span>
+                                <span data-id="221" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Flask</span>
+                                <span data-id="222" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Redis</span>
+                                <span data-id="223" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Kafka</span>
+                                <span data-id="224" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Airflow</span>
+                                <span data-id="225" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">GCP</span>
+                                <span data-id="226" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Terraform</span>
+                                <span data-id="227" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Prometheus</span>
+                                <span data-id="228" class="px-2.5 py-1 bg-surface border border-border rounded text-xs text-muted font-medium">Grafana</span>
+                            </div>
+                        </div>
+                        <div data-id="229" class="project-details">
+                            <div data-id="230" class="px-6 md:px-8 pb-8 border-t border-border pt-6 space-y-6">
+                                <div data-id="231">
+                                    <h4 data-id="232" class="text-sm font-semibold uppercase tracking-wider text-accent mb-2">Problem</h4>
+                                    <p data-id="233" class="text-muted text-sm leading-relaxed">80K MAU shown same bestsellers list. 2.1% conversion rate, flat AOV. Zero personalization in the buying experience.</p>
+                                </div>
+                                <div data-id="234">
+                                    <h4 data-id="235" class="text-sm font-semibold uppercase tracking-wider text-accent mb-2">Solution</h4>
+                                    <p data-id="236" class="text-muted text-sm leading-relaxed">Hybrid collaborative + content-based recommender in PyTorch, served via Flask + Redis cache, events via Kafka, retrained weekly via Airflow. Infrastructure as code with Terraform on GCP.</p>
+                                </div>
+                                <div data-id="237">
+                                    <h4 data-id="238" class="text-sm font-semibold uppercase tracking-wider text-accent mb-2">Architecture</h4>
+                                    <div data-id="239" class="arch-block">User Events → Kafka → Airflow ETL → PyTorch Recommender
+Flask API → Redis Cache → Frontend</div>
+                                </div>
+                                <div data-id="240">
+                                    <h4 data-id="241" class="text-sm font-semibold uppercase tracking-wider text-accent mb-3">Results</h4>
+                                    <div data-id="242" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                                        <div data-id="243" class="metric-chip"><div data-id="244" class="val">2M+</div><div data-id="245" class="lbl">Training Events</div></div>
+                                        <div data-id="246" class="metric-chip"><div data-id="247" class="val">23%</div><div data-id="248" class="lbl">Higher AOV</div></div>
+                                        <div data-id="249" class="metric-chip"><div data-id="250" class="val">31%</div><div data-id="251" class="lbl">Better CTR</div></div>
+                                        <div data-id="252" class="metric-chip"><div data-id="253" class="val">&lt;50ms</div><div data-id="254" class="lbl">P99 Latency</div></div>
+                                        <div data-id="255" class="metric-chip"><div data-id="256" class="val">$340K</div><div data-id="257" class="lbl">Annualized Lift</div></div>
+                                    </div>
+                                </div>
+                                <div data-id="258" class="flex items-center gap-2 text-sm">
+                                    <span data-id="259" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green/10 text-green rounded-full border border-green/20 font-medium text-xs">
+                                        <i data-id="260" data-lucide="clock" class="w-3.5 h-3.5"></i> 72hr prototype → 6wk MVP
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TECH STACK -->
+        <section data-id="261" id="stack" class="py-20 md:py-28 px-5">
+            <div data-id="262" class="max-w-6xl mx-auto">
+                <div data-id="263" class="text-center mb-12 animate-in">
+                    <div data-id="264" class="section-title">Tech Stack</div>
+                    <h2 data-id="265" class="text-3xl md:text-4xl font-bold mt-2">Tools & Technologies</h2>
+                    <p data-id="266" class="text-muted mt-3 text-sm">★ = confirmed depth &nbsp;&nbsp; ◆ = applied knowledge</p>
+                </div>
+                <div data-id="267" class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in">
+                    <div data-id="268" class="bg-card border border-border rounded-card p-6">
+                        <div data-id="269" class="flex items-center gap-2 mb-5">
+                            <i data-id="270" data-lucide="brain" class="w-5 h-5 text-accent"></i>
+                            <h3 data-id="271" class="font-bold text-lg text-txt">AI & Machine Learning</h3>
+                        </div>
+                        <div data-id="272" class="flex flex-wrap gap-2">
+                            <span data-id="273" class="pill star">Python★</span>
+                            <span data-id="274" class="pill star">PyTorch★</span>
+                            <span data-id="275" class="pill star">Hugging Face★</span>
+                            <span data-id="276" class="pill star">LangChain★</span>
+                            <span data-id="277" class="pill diamond">scikit-learn◆</span>
+                            <span data-id="278" class="pill diamond">TensorFlow◆</span>
+                            <span data-id="279" class="pill">RAG</span>
+                            <span data-id="280" class="pill">NLP</span>
+                            <span data-id="281" class="pill">Computer Vision</span>
+                        </div>
+                    </div>
+                    <div data-id="282" class="bg-card border border-border rounded-card p-6">
+                        <div data-id="283" class="flex items-center gap-2 mb-5">
+                            <i data-id="284" data-lucide="server" class="w-5 h-5 text-accent"></i>
+                            <h3 data-id="285" class="font-bold text-lg text-txt">API & Backend</h3>
+                        </div>
+                        <div data-id="286" class="flex flex-wrap gap-2">
+                            <span data-id="287" class="pill star">FastAPI★</span>
+                            <span data-id="288" class="pill">Flask</span>
+                            <span data-id="289" class="pill diamond">Node.js◆</span>
+                            <span data-id="290" class="pill diamond">TypeScript◆</span>
+                            <span data-id="291" class="pill">REST APIs</span>
+                            <span data-id="292" class="pill">Microservices</span>
+                            <span data-id="293" class="pill">WebSockets</span>
+                        </div>
+                    </div>
+                    <div data-id="294" class="bg-card border border-border rounded-card p-6">
+                        <div data-id="295" class="flex items-center gap-2 mb-5">
+                            <i data-id="296" data-lucide="container" class="w-5 h-5 text-accent"></i>
+                            <h3 data-id="297" class="font-bold text-lg text-txt">MLOps & Infrastructure</h3>
+                        </div>
+                        <div data-id="298" class="flex flex-wrap gap-2">
+                            <span data-id="299" class="pill star">Docker★</span>
+                            <span data-id="300" class="pill star">MLflow★</span>
+                            <span data-id="301" class="pill">GitHub Actions</span>
+                            <span data-id="302" class="pill diamond">Kubernetes◆</span>
+                            <span data-id="303" class="pill diamond">Airflow◆</span>
+                            <span data-id="304" class="pill diamond">Kafka◆</span>
+                            <span data-id="305" class="pill diamond">DVC◆</span>
+                            <span data-id="306" class="pill diamond">Terraform◆</span>
+                            <span data-id="307" class="pill">Prometheus</span>
+                            <span data-id="308" class="pill">Grafana</span>
+                            <span data-id="309" class="pill">CI/CD</span>
+                        </div>
+                    </div>
+                    <div data-id="310" class="bg-card border border-border rounded-card p-6">
+                        <div data-id="311" class="flex items-center gap-2 mb-5">
+                            <i data-id="312" data-lucide="cloud" class="w-5 h-5 text-accent"></i>
+                            <h3 data-id="313" class="font-bold text-lg text-txt">Cloud & Data</h3>
+                        </div>
+                        <div data-id="314" class="flex flex-wrap gap-2">
+                            <span data-id="315" class="pill star">AWS (EC2, S3, Lambda)★</span>
+                            <span data-id="316" class="pill diamond">GCP◆</span>
+                            <span data-id="317" class="pill">PostgreSQL</span>
+                            <span data-id="318" class="pill">MongoDB</span>
+                            <span data-id="319" class="pill">Redis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRICING -->
+        <section data-id="320" id="pricing" class="py-20 md:py-28 px-5 bg-surface">
+            <div data-id="321" class="max-w-6xl mx-auto">
+                <div data-id="322" class="text-center mb-12 animate-in">
+                    <div data-id="323" class="section-title">Engagement Options</div>
+                    <h2 data-id="324" class="text-3xl md:text-4xl font-bold mt-2">Pricing</h2>
+                    <p data-id="325" class="text-muted mt-3 text-base">Every project starts with a free 30-minute scoping call.</p>
+                </div>
+                <div data-id="326" class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in">
+                    <!-- Rapid Prototype -->
+                    <div data-id="327" class="pricing-card bg-card border border-border rounded-card p-7 flex flex-col">
+                        <span data-id="328" class="text-xs font-semibold px-3 py-1 rounded-full bg-accent/10 text-accent border border-accent/20 self-start mb-4">Most Popular Entry Point</span>
+                        <h3 data-id="329" class="text-xl font-bold text-txt mb-1">Rapid Prototype</h3>
+                        <div data-id="330" class="flex items-baseline gap-2 mb-1">
+                            <span data-id="331" class="text-3xl font-black gradient-text">$1,500–$3,500</span>
+                        </div>
+                        <span data-id="332" class="text-xs text-muted font-medium uppercase tracking-wider mb-4">Flat Fee</span>
+                        <p data-id="333" class="text-muted text-sm mb-6 leading-relaxed">Working proof-of-concept in 48–72 hours. See real progress before committing.</p>
+                        <ul data-id="334" class="space-y-3 text-sm text-muted flex-1">
+                            <li data-id="335" class="flex items-start gap-2"><i data-id="336" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>Functional demo delivered</li>
+                            <li data-id="337" class="flex items-start gap-2"><i data-id="338" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>Architecture recommendation</li>
+                            <li data-id="339" class="flex items-start gap-2"><i data-id="340" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>Code handoff with docs</li>
+                            <li data-id="341" class="flex items-start gap-2"><i data-id="342" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>Scope estimate for MVP</li>
+                        </ul>
+                    </div>
+
+                    <!-- Fixed-Price (Highlighted) -->
+                    <div data-id="343" class="pricing-card gradient-border p-7 flex flex-col relative">
+                        <span data-id="344" class="text-xs font-semibold px-3 py-1 rounded-full bg-purple/10 text-purple border border-purple/20 self-start mb-4">⭐ Most Common</span>
+                        <h3 data-id="345" class="text-xl font-bold text-txt mb-1">Fixed-Price Project</h3>
+                        <div data-id="346" class="flex items-baseline gap-2 mb-1">
+                            <span data-id="347" class="text-3xl font-black gradient-text">$8K–$90K</span>
+                        </div>
+                        <span data-id="348" class="text-xs text-muted font-medium uppercase tracking-wider mb-4">By Project Scope</span>
+                        <p data-id="349" class="text-muted text-sm mb-6 leading-relaxed">Full build: scoped, designed, built, deployed. Milestone-based delivery.</p>
+                        <ul data-id="350" class="space-y-3 text-sm text-muted flex-1">
+                            <li data-id="351" class="flex items-start gap-2"><i data-id="352" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>2–4 milestone delivery</li>
+                            <li data-id="353" class="flex items-start gap-2"><i data-id="354" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>30-day post-launch support</li>
+                            <li data-id="355" class="flex items-start gap-2"><i data-id="356" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>Git repo + full docs</li>
+                            <li data-id="357" class="flex items-start gap-2"><i data-id="358" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>Monitoring setup included</li>
+                        </ul>
+                    </div>
+
+                    <!-- Monthly Retainer -->
+                    <div data-id="359" class="pricing-card bg-card border border-border rounded-card p-7 flex flex-col">
+                        <h3 data-id="360" class="text-xl font-bold text-txt mb-1 mt-1">Monthly Retainer</h3>
+                        <div data-id="361" class="flex items-baseline gap-2 mb-1">
+                            <span data-id="362" class="text-3xl font-black gradient-text">$3,200–$12,000</span>
+                        </div>
+                        <span data-id="363" class="text-xs text-muted font-medium uppercase tracking-wider mb-4">Per Month</span>
+                        <p data-id="364" class="text-muted text-sm mb-6 leading-relaxed">Dedicated hours with priority availability. Ongoing AI development partnership.</p>
+                        <ul data-id="365" class="space-y-3 text-sm text-muted flex-1">
+                            <li data-id="366" class="flex items-start gap-2"><i data-id="367" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>20–80 hrs/month options</li>
+                            <li data-id="368" class="flex items-start gap-2"><i data-id="369" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>Monthly deliverable reports</li>
+                            <li data-id="370" class="flex items-start gap-2"><i data-id="371" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>Priority response</li>
+                            <li data-id="372" class="flex items-start gap-2"><i data-id="373" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>10–15% discount for 6–12mo</li>
+                        </ul>
+                    </div>
+
+                    <!-- Performance-Based -->
+                    <div data-id="374" class="pricing-card bg-card border border-border rounded-card p-7 flex flex-col">
+                        <h3 data-id="375" class="text-xl font-bold text-txt mb-1 mt-1">Performance-Based</h3>
+                        <div data-id="376" class="flex items-baseline gap-2 mb-1">
+                            <span data-id="377" class="text-3xl font-black gradient-text">Base + Bonus</span>
+                        </div>
+                        <span data-id="378" class="text-xs text-muted font-medium uppercase tracking-wider mb-4">KPI-Linked</span>
+                        <p data-id="379" class="text-muted text-sm mb-6 leading-relaxed">Shared risk, shared reward. Lower upfront with success-linked payment.</p>
+                        <ul data-id="380" class="space-y-3 text-sm text-muted flex-1">
+                            <li data-id="381" class="flex items-start gap-2"><i data-id="382" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>50–60% base rate</li>
+                            <li data-id="383" class="flex items-start gap-2"><i data-id="384" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>10–25% bonus on KPI hit</li>
+                            <li data-id="385" class="flex items-start gap-2"><i data-id="386" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>Requires analytics access</li>
+                            <li data-id="387" class="flex items-start gap-2"><i data-id="388" data-lucide="check" class="w-4 h-4 text-green mt-0.5 shrink-0"></i>Case-by-case basis</li>
+                        </ul>
+                    </div>
+                </div>
+                <div data-id="389" class="mt-8 text-center animate-in">
+                    <div data-id="390" class="inline-flex items-center gap-6 bg-card border border-border rounded-card px-6 py-4 text-sm text-muted">
+                        <span data-id="391">Senior rate: <span data-id="392" class="text-txt font-semibold">$195/hr</span></span>
+                        <span data-id="393" class="w-px h-5 bg-border"></span>
+                        <span data-id="394">Principal: <span data-id="395" class="text-txt font-semibold">$220/hr</span></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section data-id="396" id="contact" class="py-20 md:py-28 px-5">
+            <div data-id="397" class="max-w-3xl mx-auto text-center">
+                <div data-id="398" class="section-title animate-in">Let's Build Something</div>
+                <blockquote data-id="399" id="contact-quote-y5z6" class="text-2xl md:text-3xl font-light italic text-muted leading-relaxed mt-6 mb-12 animate-in">
+                    "I help startups and SMBs ship AI products in weeks, not quarters. Give me 48 hours and a problem."
+                </blockquote>
+                <div data-id="400" class="bg-card border border-border rounded-card p-8 md:p-10 max-w-lg mx-auto mb-10 animate-in">
+                    <div data-id="401" class="space-y-5 text-left">
+                        <div data-id="402" class="flex items-center gap-3">
+                            <i data-id="403" data-lucide="mail" class="w-5 h-5 text-accent shrink-0"></i>
+                            <a data-id="404" href="mailto:vernon@example.com" class="text-txt hover:text-accent transition-colors font-medium" style="text-decoration:none;">vernon@example.com</a>
+                        </div>
+                        <div data-id="405" class="flex items-center gap-3">
+                            <i data-id="406" data-lucide="map-pin" class="w-5 h-5 text-accent shrink-0"></i>
+                            <span data-id="407" class="text-muted">Boise, ID — Remote Friendly</span>
+                        </div>
+                        <div data-id="408" class="flex items-center gap-3">
+                            <i data-id="409" data-lucide="circle-check" class="w-5 h-5 text-green shrink-0"></i>
+                            <span data-id="410" class="text-green font-medium">Available within 2 weeks</span>
+                        </div>
+                    </div>
+                    <div data-id="411" class="mt-8">
+                        <a data-id="412" href="mailto:vernon@example.com?subject=AI%20Project%20Scoping%20Call" class="gradient-btn w-full justify-center text-center">
+                            <i data-id="413" data-lucide="calendar" class="w-5 h-5"></i> Book a Free 30-Min Scoping Call
+                        </a>
+                    </div>
+                </div>
+                <div data-id="414" class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted animate-in">
+                    <span data-id="415">Conversational Agents</span>
+                    <span data-id="416" class="text-border hidden sm:inline">|</span>
+                    <span data-id="417">Document Intelligence</span>
+                    <span data-id="418" class="text-border hidden sm:inline">|</span>
+                    <span data-id="419">Recommendation Engines</span>
+                    <span data-id="420" class="text-border hidden sm:inline">|</span>
+                    <span data-id="421">MLOps Infrastructure</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer data-id="422" class="border-t border-border py-10 px-5 bg-surface">
+        <div data-id="423" class="max-w-6xl mx-auto text-center space-y-3">
+            <p data-id="424" class="text-sm text-muted font-medium">Vernon · AI Engineer · Boise, ID</p>
+            <p data-id="425" class="text-xs text-muted/60">Rates effective 2025–2026 · All client work anonymized by agreement</p>
+            <p data-id="426" class="text-xs text-muted/50">Built with production-first principles 🛠️</p>
+            <p data-id="427" class="text-xs text-muted/40 mt-2">Made by Copilot</p>
+        </div>
+    </footer>
+
+    <script>
+    // === Guard Lucide ===
+    if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+        lucide.createIcons();
+    }
+
+    // === MOBILE MENU ===
+    (function() {
+        const btn = document.getElementById('mobile-menu-btn-c3d4');
+        const menu = document.getElementById('mobile-menu-e5f6');
+        const closeBtn = document.getElementById('mobile-menu-close-g7h8');
+        const links = menu.querySelectorAll('.mobile-nav-link');
+
+        btn.addEventListener('click', function() { menu.classList.remove('hidden'); });
+        closeBtn.addEventListener('click', function() { menu.classList.add('hidden'); });
+        links.forEach(function(link) {
+            link.addEventListener('click', function() { menu.classList.add('hidden'); });
+        });
+    })();
+
+    // === TYPEWRITER EFFECT ===
+    (function() {
+        var lines = ['Production-First AI', 'For Startups & SMBs'];
+        var target = document.getElementById('typewriter-target-m3n4');
+        var lineIndex = 0;
+        var charIndex = 0;
+        var isDeleting = false;
+        var typeSpeed = 80;
+        var deleteSpeed = 40;
+        var pauseEnd = 2200;
+        var pauseStart = 500;
+
+        function tick() {
+            var currentLine = lines[lineIndex];
+            if (!isDeleting) {
+                target.textContent = currentLine.substring(0, charIndex + 1);
+                charIndex++;
+                if (charIndex === currentLine.length) {
+                    setTimeout(function() { isDeleting = true; tick(); }, pauseEnd);
+                    return;
+                }
+                setTimeout(tick, typeSpeed);
+            } else {
+                target.textContent = currentLine.substring(0, charIndex - 1);
+                charIndex--;
+                if (charIndex === 0) {
+                    isDeleting = false;
+                    lineIndex = (lineIndex + 1) % lines.length;
+                    setTimeout(tick, pauseStart);
+                    return;
+                }
+                setTimeout(tick, deleteSpeed);
+            }
+        }
+        setTimeout(tick, 800);
+    })();
+
+    // === COUNT-UP ANIMATION ===
+    (function() {
+        var statEls = document.querySelectorAll('.stat-num[data-target]');
+        var animated = new Set();
+
+        function animateValue(el) {
+            var target = parseInt(el.dataset.target);
+            var prefix = el.dataset.prefix || '';
+            var suffix = el.dataset.suffix || '';
+            var duration = 1800;
+            var startTime = null;
+
+            function step(ts) {
+                if (!startTime) startTime = ts;
+                var progress = Math.min((ts - startTime) / duration, 1);
+                var eased = 1 - Math.pow(1 - progress, 3);
+                var current = Math.round(eased * target);
+                el.textContent = prefix + current + suffix;
+                if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting && !animated.has(entry.target)) {
+                    animated.add(entry.target);
+                    animateValue(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statEls.forEach(function(el) { observer.observe(el); });
+    })();
+
+    // === FADE-IN ON SCROLL ===
+    (function() {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.animate-in').forEach(function(el) {
+            observer.observe(el);
+        });
+    })();
+
+    // === PROJECT CARD EXPAND/COLLAPSE ===
+    (function() {
+        document.querySelectorAll('.project-card').forEach(function(card) {
+            card.addEventListener('click', function() {
+                var wasExpanded = card.classList.contains('expanded');
+                // Collapse all
+                document.querySelectorAll('.project-card').forEach(function(c) { c.classList.remove('expanded'); });
+                // Toggle this one
+                if (!wasExpanded) {
+                    card.classList.add('expanded');
+                    // Reinitialize lucide icons for newly revealed content
+                    if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+                        lucide.createIcons();
+                    }
+                }
+            });
+        });
+    })();
+
+    // === ACTIVE NAV HIGHLIGHT ===
+    (function() {
+        var sections = document.querySelectorAll('section[id]');
+        var navLinks = document.querySelectorAll('.nav-link[data-nav]');
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var id = entry.target.getAttribute('id');
+                    navLinks.forEach(function(link) {
+                        link.classList.toggle('active', link.dataset.nav === id);
+                    });
+                }
+            });
+        }, { threshold: 0.2, rootMargin: '-80px 0px -50% 0px' });
+
+        sections.forEach(function(section) { observer.observe(section); });
+    })();
+    </script>
+</body>
+</html>
